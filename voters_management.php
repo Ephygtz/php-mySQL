@@ -163,3 +163,23 @@
 	}
 
 ?>
+
+<?php  
+	//Delete a perticular row by assigning a GET variable to each unique No. field
+	if(isset($_GET['del_id'])){
+		//SQL delete syntax/query
+		$query_del = "DELETE FROM voters_management WHERE No = '$_GET[del_id]' ";
+		//Run Query
+		if(mysqli_query($conn, $query_del)){
+			//Reload page if query succesful
+			echo "Delete Succesful"; ?>
+			<script> 
+				// Reload self
+				window.location = "voters_management.php"; 
+			</script>
+			<?php 
+		} else {
+			die("Delete failed: " . mysqli_error($conn));
+		}
+	}
+?>

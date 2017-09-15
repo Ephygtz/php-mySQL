@@ -1,3 +1,8 @@
+<!-- <?php //header reload function 
+	function reload(){
+		header("location: voters_management.php");
+	}
+?> -->
 <?php  
 	//1. Create a database connection
 	$server = "localhost";
@@ -32,6 +37,16 @@
 <head>
 	<title>IEBC voter's management system</title>
 	<link rel="stylesheet" type="text/css" href="bootstrap/css/bootstrap.css">
+	<style type="text/css">
+		#edit {
+			color: purple;
+			background-color: yellow;
+		}
+		#del {
+			color: orange;
+			background-color: red;
+		}
+	</style>
 </head>
 <body>
 	<div class="container">
@@ -46,7 +61,7 @@
 		<form method="POST" action="voters_management.php">
 			<div class="row" align="center">
 				<div class="col-md-6"> <!-- Float this section left -->
-					<div class="form-group">
+				<div class="form-group">
 					<label>Name:
 						<input type="text" name="name" class="form-control" placeholder="Enter Your Full Names" required>
 					</label>
@@ -93,6 +108,8 @@
 					<th>County</th>
 					<th>Date</th>
 					<th>Polling Station</th>
+					<th id="del">Delete</th>
+					<th id="edit">Update</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -108,13 +125,41 @@
 							<td>$row[ID]</td> 
 							<td>$row[County]</td> 
 							<td>$row[Date]</td> 
-							<td>$row[County]</td> 
+							<td>$row[Polling_station]</td> 
+							<td> <a href='voters_management.php?del_id=$row[No]' class='btn btn-danger'>Delete</a></td> 
+							<td> <a href='#' class='btn btn-warning'>Edit</a></td> 
 						</tr>";
 				}
 				?>
 			</tbody>
 		</table>
 	</div>
-	
+	<br><br><br><br><br><br><br><br><br>
 </body>
 </html>
+
+<?php  
+	//Process user input and push data to the DB
+	if(isset($_POST['submit'])){
+		$name = $_POST['name'];
+		$ID = $_POST['id'];
+		$county = $_POST['county'];
+		$date = $_POST['date'];
+		$polling_station = $_POST['polling'];
+		//Push data to the da
+		$insert = "INSERT INTO voters_management (Name, ID, County, Date, Polling_station) VALUES ('$name', '$ID', '$county', '$date', '$polling_station')";
+		// Run your Query
+		if(mysqli_query($conn, $insert)){
+			//Reload page if query succesful
+			echo "Insert Succesful"; ?> 
+			<!-- Close tag p reload using JS -->
+			<script> window.location = "voters_management.php";</script> <?php
+			//If you get a header error, wrap 
+			// header("location: voters_management.php")
+			// reload();
+		} else {
+			die("Query failed " . mysqli_error($conn));
+		}
+	}
+
+?>

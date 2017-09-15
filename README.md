@@ -4,4 +4,12 @@
 ## CRUD  
 +  C  
 
-   User can enetr details to the db using a form `INSERT INTO table_name () VALUES ()`
+   User can enter details to the db using a form `INSERT INTO table_name (col) VALUES ()`
+
++  R  
+
+   User can view the data in the db in a html table `SELECT * FROM table_name`
+
++  D  
+
+   User can delete any row  `DELETE FROM table_name WHERE col = column_name`
